@@ -30,15 +30,12 @@
         </div>
     </nav>
 
-    {% for blog in blogs.all %}
-    <div class="container">
-        <a href="{% url 'detail' pk=blog.id %}">
-            <h1>{{ blog.title }}</h1>
-        </a>
+    <div class="container jumbotron">
+        <h1>{{ blog.title }}</h1>
         <p>{{ blog.pub_date }}</p>
         <p>{{ blog.body }}</p>
+        <a href="{% url 'home' %}">돌아가기</a>
     </div>
-    {% endfor %}
 
 
     <!-- bootstrap4 js관련 CDN 부분 -->
