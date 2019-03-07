@@ -3,9 +3,9 @@ from django.utils import timezone
 from .models import Blog
 
 # Create your views here.
-def home(request):
+def blog(request):
     blogs = Blog.objects
-    return render(request, 'blog/home.html', {'blogs': blogs})
+    return render(request, 'blog/blog.html', {'blogs': blogs})
 
 def detail(request, pk):
     blog_detail = get_object_or_404(Blog, pk=pk)
