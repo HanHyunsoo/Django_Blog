@@ -17,33 +17,52 @@ def home(request):
     posts = paginator.get_page(page)
     return render(request, 'blog/home.html', {'blogs': blogs, 'posts': posts})
 
-def detail(request, blog_id):
-    blog_detail = get_object_or_404(Blog, pk=blog_id)
+def detail(request, pk):
+    blog_detail = get_object_or_404(Blog, pk=pk)
     return render(request, 'blog/detail.html', {'blog': blog_detail})
 
-def new(request):
-    return render(request, 'blog/new.html')
+# def new(request):
+#     return render(request, 'blog/new.html')
 
-def create(request):
-    blog = Blog()
-    blog.title = request.GET['title']
-    blog.body = request.GET['body']
-    blog.pub_date = timezone.datetime.now()
-    blog.save()
-    return redirect('/blog/' + str(blog.id))
+# def create(request):
+#     blog = Blog()
+#     blog.title = request.GET['title']
+#     blog.body = request.GET['body']
+#     blog.pub_date = timezone.datetime.now()
+#     blog.save()
+#     return redirect('/blog/' + str(blog.id))
 
-# def blogpost(request):
-#     # 1. 입력된 내용을 처리하는 기능 -> POST
-#     if request.method == "POST":
-#         form = BlogPost(request.POST)
-#         if form.is_valid():
-#             post = form.save(commit=False)
-#             post.pub_date = timezone.now()
-#             post.body
-#             post.save()
-#             return redirect('/blog/' + str(post.id))
+def post_new(request):
+    # 1. 입력된 내용을 처리하는 기능 -> POST
+    if request.method == "POST":
+        form = BlogPost(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.pub_date = timezone.now()
+            post.body
+            post.save()
+            return redirect('/blog/' + str(post.id))
 
-#     # 2. 빈 페이지를 띄워주는 기능 -> GET
-#     else:
-#         form = BlogPost()
-#         return render(request, 'blog/new.html', {'form': form})
+    # 2. 빈 페이지를 띄워주는 기능 -> GET
+    else:
+        form = BlogPost()
+        return render(request, 'blog/post_edit.html', {'form': form})
+
+def post_edit(request, pk):
+    post = get_object_or_404(Blog, pk=pk)
+    if request.method == "POST":
+        form = BlogPost(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            return redirect('/blog/' + str(pk), pk=post.pk)
+    else:
+        form = BlogPost(instance=post)
+    return render(request, 'blog/post_edit.html', {'form': form})
+
+def post_remove(request, pk):
+    post = get_object_or_404(Blog, pk=pk)
+    post.delete()
+    return redirect('home')

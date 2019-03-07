@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <br>
+    {% comment %} <br>
     <div class="container">
         <form action="{% url 'create' %}">
         <h4>제목: </h4>
@@ -15,9 +15,9 @@
         <br>
         <input class="btn btn-dark" type="submit" value="제출하기">
     </form>
-    </div>
+    </div> {% endcomment %}
     
-    {% comment %} <div class="container">
+    <div class="container">
         <form method="POST">
             {% csrf_token %}
             <table>
@@ -26,6 +26,6 @@
             <br>
             <input class="btn btn-dark" type="submit" value="제출하기">
         </form>
-    </div> {% endcomment %}
+    </div>
 
 {% endblock %}
