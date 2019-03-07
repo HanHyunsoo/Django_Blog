@@ -15,14 +15,17 @@
     <div class="album py-5 bg-light">
         <div class="container">
             <div class="row">
+            {% for portfolio in portfolios.all %}
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
-                        <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" alt="Image">
-                        <div class="card-body">
-                            <p class="card-text">작품설명</p>
-                        </div>
+                      <img class="card-img-top" src="{{ portfolio.image.url }}" alt=" Card image cap">
+                      <div class="card-body">
+                        <h4>{{ portfolio.title }}</h4>
+                        <p class="card-text">{{ portfolio.description }}</p>
+                      </div>
                     </div>
                 </div>
+            {% endfor %}
             </div>
         </div>
     </div>
